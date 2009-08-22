@@ -1,17 +1,9 @@
-from math import sqrt, log, floor
+from math import sqrt, log, log10, floor
 
 
 def F(n):
     """The nth number in the fibonacci sequence based off of Binet's Formula"""
     return int(((1+sqrt(5))**n-(1-sqrt(5))**n)/(2**n*sqrt(5)))
-
-def m_ord(n, r):
-    """
-
-    """
-    for k in xrange(1, n):
-        if n**k % r == 1:
-            return k
 
 def gcd(a, b):
     """
@@ -34,6 +26,14 @@ def is_prime(n):
             return False
     return True
 
+def m_ord(n, r):
+    """
+
+    """
+    for k in xrange(1, n):
+        if n**k % r == 1:
+            return k
+
 def totient(n):
      """
         Compute the number of positives < n that are
@@ -46,7 +46,10 @@ def totient(n):
      return tot
 
 def aks(n):
-    """ Test primality using the AKS primality test """
+    """
+        Test primality using the AKS primality test
+        TODO: make work :)
+    """
 
     for a in xrange(1, n):
         for b in xrange(2, n):
@@ -67,20 +70,23 @@ def aks(n):
     if n <= r:
         return True
 
-
     return True
 
-def primes(n):
-    """Generate a list of the prime numbers [2, 3, ... m] where
-    m is the largest prime <= n."""
-    n = n + 1
-    sieve = range(n)
-    sieve[:2] = [0, 0]
-    for i in xrange(2, int(n**0.5)+1):
-        if sieve[i]:
-            for j in xrange(i**2, n, i):
-                sieve[j] = 0
-    # Filter out the composites, which have been replaced by 0's
-    return [p for p in sieve if p]
+def digit(n, i):
+    return (n / (10 ** i)) % 10
 
+def num_digits(n):
+    return int(floor(log10(n)))+1
+
+# distinguishes between string and numbers
+def is_palindromic(n):
+    if isinstance(n, str):
+        return str(n) == str(n)[::-1]
+    d = num_digits(n)
+    for i, j in zip(xrange(d), xrange(d-1, -1, -1)):
+        if digit(n, i) != digit(n, j):
+            return False
+        if i >= j:
+            return True
+    return True
 
