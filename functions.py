@@ -1,9 +1,29 @@
-from math import sqrt, log, log10, floor
-
+from math import sqrt, log, log10, floor, ceil
 
 def F(n):
     """The nth number in the fibonacci sequence based off of Binet's Formula"""
     return int(((1+sqrt(5))**n-(1-sqrt(5))**n)/(2**n*sqrt(5)))
+
+def is_prime(n):
+    if n in (1,2):
+        return True
+    if n % 2 == 0:
+        return False
+    for i in xrange(3, int(ceil(sqrt(n))) + 1, 2):
+        if n % i == 0:
+            return False
+    return True
+
+def sieve(max_number):
+    """Returns all primes up to a maximum number."""
+    full_set = range(0, max_number + 1)
+    full_set[0:2] = (None, None)
+
+    for i in xrange(2, max_number + 1):
+        for remove_me in xrange(i * 2, max_number + 1, i):
+            full_set[remove_me] = None
+
+    return [i for i in full_set if i]
 
 def gcd(a, b):
     """
@@ -16,15 +36,31 @@ def gcd(a, b):
         if 0 in (a % i, b % i):
             return i
 
-# the function to calculate the LCM
-def lcm(a, b):
-    return a * b / gcd(a, b)
+def prime_factors(n):
+    factors = []
+    while not is_prime(n):
+        s = sieve(int(ceil(sqrt(n))))
+        for prime in s:
+            if n % prime == 0:
+                factors.append(prime)
+                n /= prime
+                break
+    factors.append(n)
+    return factors
 
-def is_prime(n):
-    for i in xrange(3, int(floor(sqrt(n))), 2):
-        if n % i == 0:
-            return False
-    return True
+# the function to calculate the LCM
+def lcm(*nums):
+    c = {}
+    for n in nums:
+        pf = prime_factors(n)
+        for p in pf:
+            if p not in c.keys():
+                c[p] = 0
+            c[p] = max(c[p], pf.count(p))
+    prod = 1
+    for n in c.keys():
+        prod *= n**c[n]
+    return prod
 
 def m_ord(n, r):
     """
