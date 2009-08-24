@@ -14,9 +14,12 @@
 ceiling = 999
 nums = (3, 5, -15)
 
-def scaled_divergent_series(x):
+def sas(x):
+    """
+        Scaled arithmetic series
+    """
     n = ceiling / x
-    divergent_series = (n * (n + 1) / 2)
-    return x * divergent_series
+    y = (n * (n + 1) / 2)
+    return x * y
 
-print sum(map(scaled_divergent_series, nums))
+print sum(map(sas, nums))
