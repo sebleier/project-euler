@@ -14,16 +14,21 @@ def is_prime(n):
             return False
     return True
 
-def sieve(max_number):
-    """Returns all primes up to a maximum number."""
-    full_set = range(0, max_number + 1)
-    full_set[0:2] = (None, None)
+def sieve(limit):
+    """
+        A relatively space and time efficient method to return all primes up 
+        to a specified limit.
 
-    for i in xrange(2, max_number + 1):
-        for remove_me in xrange(i * 2, max_number + 1, i):
-            full_set[remove_me] = None
-
-    return [i for i in full_set if i]
+        Since all primes after 3 are of the form 6 * k +- 1, you only need to 
+        check those values for their primality.
+    """
+    p = [2,3]
+    for i in xrange(1,limit):
+        if is_prime(6 * i - 1):
+            p.append(6 * i - 1)
+        if is_prime(6 * i + 1):
+            p.append(6 * i + 1)
+    return p
 
 def gcd(a, b):
     """
