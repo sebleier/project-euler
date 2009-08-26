@@ -14,12 +14,12 @@ def is_prime(n):
             return False
     return True
 
-def sieve(limit):
+def old_sieve(limit):
     """
-        A relatively space and time efficient method to return all primes up 
+        A relatively space and time efficient method to return all primes up
         to a specified limit.
 
-        Since all primes after 3 are of the form 6 * k +- 1, you only need to 
+        Since all primes after 3 are of the form 6 * k +- 1, you only need to
         check those values for their primality.
     """
     p = [2,3]
@@ -29,6 +29,30 @@ def sieve(limit):
         if is_prime(6 * i + 1):
             p.append(6 * i + 1)
     return p
+
+def raw_sieve(m):
+    nums = range(m)
+    nums[1] = 0
+    i = 0
+    while i**2 < m:
+        if nums[i] == 0:
+            i += 1
+            continue
+        # The next non-zero should be prime
+        p = nums[i]
+
+        # Zero out all the multiples of p, starting at the square (optimization)
+        j = p
+        r = j * p
+        while r < m:
+            nums[r] = 0
+            j += 1
+            r = j * p
+        i += 1
+    return nums
+
+def sieve(m):
+    return [x for x in raw_sieve(m) if x != 0]
 
 def gcd(a, b):
     """
