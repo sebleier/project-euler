@@ -1,4 +1,4 @@
-from math import sqrt, log, log10, floor, ceil
+from math import sqrt, log, log10, floor, ceil, factorial as f
 
 def F(n):
     """The nth number in the fibonacci sequence based off of Binet's Formula"""
@@ -155,3 +155,5 @@ def is_palindromic(n):
             return True
     return True
 
+def nCk(n, k):
+    return f(n) / (f(k)*f(n - k))
